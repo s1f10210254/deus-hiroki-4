@@ -26,7 +26,7 @@ export const AuthLoader = () => {
     });
 
     return () => {
-      subscription.data.subscription.unsubscribe();
+      subscription.data?.subscription.unsubscribe();
     };
   }, [user?.id, setUser]);
 
