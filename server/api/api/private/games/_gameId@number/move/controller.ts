@@ -1,5 +1,5 @@
+import { gameService } from 'server/service/gameService';
 import { defineController } from './$relay';
-import { gameService } from '$/service/gameService';
 
 export default defineController(() => ({
   post: async ({ params, body }) => ({

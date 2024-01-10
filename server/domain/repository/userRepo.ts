@@ -8,14 +8,14 @@ const toModel = (prismaUser: User): UserModel => ({
   gamesPlayed: prismaUser.gamesPlayed,
   gamesWon: prismaUser.gamesWon,
   gamesLost: prismaUser.gamesLost,
-  gamesTied: prismaUser.gamesTied
+  gamesTied: prismaUser.gamesTied,
 });
 
 export const userRepo = {
   save: async (tx: Prisma.TransactionClient, user: UserModel) => {
     return tx.user.upsert({
       where: { id: user.id },
-      update: { email: user.email, name: user.name },
+      update: { email: user.email, name: user.name ?? undefined },
       create: {
         id: user.id,
         email: user.email,
@@ -23,7 +23,7 @@ export const userRepo = {
         gamesPlayed: user.gamesPlayed,
         gamesWon: user.gamesWon,
         gamesLost: user.gamesLost,
-        gamesTied: user.gamesTied
+        gamesTied: user.gamesTied,
       },
     });
   },
