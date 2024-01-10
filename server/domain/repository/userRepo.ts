@@ -1,4 +1,4 @@
-import type { User as UserModel } from '$/api/@types';
+import type { User as UserModel } from 'server/api/@types';
 import type { Prisma, User } from '@prisma/client';
 
 const toModel = (prismaUser: User): UserModel => ({

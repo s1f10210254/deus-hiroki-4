@@ -1,4 +1,4 @@
-import { gameService } from '$/service/gameService';
+import { gameService } from 'server/service/gameService';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
