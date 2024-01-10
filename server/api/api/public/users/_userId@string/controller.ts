@@ -1,4 +1,4 @@
-import { userService } from '$/service/userService';
+import { userService } from '$/service/user';
 import { defineController } from './$relay';
 
 export default defineController(() => ({

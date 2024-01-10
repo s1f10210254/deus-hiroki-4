@@ -1,10 +1,10 @@
-import type { Prisma, User } from '@prisma/client';
 import type { User as UserModel } from '$/api/@types';
+import type { Prisma, User } from '@prisma/client';
 
 const toModel = (prismaUser: User): UserModel => ({
   id: prismaUser.id,
   email: prismaUser.email,
-  name: prismaUser.name,
+  name: prismaUser.name ?? undefined,
   gamesPlayed: prismaUser.gamesPlayed,
   gamesWon: prismaUser.gamesWon,
   gamesLost: prismaUser.gamesLost,
@@ -15,7 +15,7 @@ export const userRepo = {
   save: async (tx: Prisma.TransactionClient, user: UserModel) => {
     return tx.user.upsert({
       where: { id: user.id },
-      update: { email: user.email, name: user.name ?? undefined },
+      update: { email: user.email, name: user.name },
       create: {
         id: user.id,
         email: user.email,
