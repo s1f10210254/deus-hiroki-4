@@ -9,9 +9,7 @@ export const AuthLoader = () => {
   const [user, setUser] = useAtom(userAtom);
 
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const subscription = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session === null && user?.id !== null) {
         await apiClient.api.private.session.$delete().catch(returnNull);
         setUser(null);
