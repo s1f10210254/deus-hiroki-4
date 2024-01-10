@@ -19,7 +19,10 @@ export const AuthLoader = () => {
         await apiClient.api.private.session
           .$post({ body: { jwt: session.access_token } })
           .catch(returnNull);
-        const fetchedUser = await apiClient.api.public.users._userId(session.user.id).$get().catch(returnNull);
+        const fetchedUser = await apiClient.api.public.users
+          ._userId(session.user.id)
+          .$get()
+          .catch(returnNull);
         setUser(fetchedUser);
       }
     });
