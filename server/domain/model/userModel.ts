@@ -11,7 +11,7 @@ export const userModel = {
       gamesPlayed: 0,
       gamesWon: 0,
       gamesLost: 0,
-      gamesTied: 0
+      gamesTied: 0,
     };
   },
 };

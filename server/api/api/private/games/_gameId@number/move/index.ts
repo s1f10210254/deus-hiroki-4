@@ -1,11 +1,11 @@
 /* eslint-disable */
-import type * as Types from '../../../../../@types'
+import type * as Types from '../../../../../@types';
 
 export type Methods = {
   post: {
-    status: 200
+    status: 200;
     /** Move accepted */
-    resBody: Types.Move
-    reqBody: Types.MoveInput
-  }
-}
+    resBody: Types.Move;
+    reqBody: Types.MoveInput;
+  };
+};
