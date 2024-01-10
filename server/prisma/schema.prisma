@@ -8,19 +8,37 @@ generator client {
 }
 
 model User {
-  id        String   @id
-  email     String
-  name      String
-  createdAt DateTime
-  tasks     Task[]
+  id          String  @id @default(uuid())
+  email       String  @unique
+  name        String?
+  gamesPlayed Int     @default(0)
+  gamesWon    Int     @default(0)
+  gamesLost   Int     @default(0)
+  gamesTied   Int     @default(0)
+  moves       Move[]
+  Game        Game[]
 }
 
-model Task {
-  id        String   @id
-  label     String
-  done      Boolean
-  imageKey  String?
-  createdAt DateTime
-  User      User     @relation(fields: [userId], references: [id])
+model Move {
+  id        Int      @id @default(autoincrement())
   userId    String
+  moveType  MoveType
+  game      Game     @relation(fields: [gameId], references: [id])
+  gameId    Int
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model Game {
+  id        Int      @id @default(autoincrement())
+  moves     Move[]
+  winnerId  String?
+  winner    User?    @relation(fields: [winnerId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+enum MoveType {
+  ROCK
+  PAPER
+  SCISSORS
 }
