@@ -1,0 +1,236 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Rock-Paper-Scissors Game API",
+    "version": "1.0.0",
+    "description": "API for a rock-paper-scissors game service."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/public/users/{userId}": {
+      "get": {
+        "tags": [
+          "Public"
+        ],
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the user to retrieve",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/api/private/games": {
+      "post": {
+        "tags": [
+          "Private"
+        ],
+        "summary": "Create a new game",
+        "responses": {
+          "201": {
+            "description": "Game created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/private/games/{gameId}/move": {
+      "post": {
+        "tags": [
+          "Private"
+        ],
+        "summary": "Submit a move in a game",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the game",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Move accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Move"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid move or game not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "gamesPlayed": {
+            "type": "integer"
+          },
+          "gamesWon": {
+            "type": "integer"
+          },
+          "gamesLost": {
+            "type": "integer"
+          },
+          "gamesTied": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "gamesPlayed",
+          "gamesWon",
+          "gamesLost",
+          "gamesTied"
+        ]
+      },
+      "Game": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "moves": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Move"
+            }
+          },
+          "winnerId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "moves",
+          "createdAt"
+        ]
+      },
+      "Move": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "moveType": {
+            "$ref": "#/components/schemas/MoveType"
+          },
+          "gameId": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "moveType",
+          "gameId",
+          "createdAt"
+        ]
+      },
+      "MoveInput": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "moveType": {
+            "$ref": "#/components/schemas/MoveType"
+          }
+        },
+        "required": [
+          "userId",
+          "moveType"
+        ]
+      },
+      "MoveType": {
+        "type": "string",
+        "enum": [
+          "ROCK",
+          "PAPER",
+          "SCISSORS"
+        ]
+      }
+    }
+  }
+}
